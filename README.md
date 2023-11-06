@@ -1,19 +1,20 @@
 # MuonHLT Ntupler
 
-## Run3 130X Recipe
+## Run3 132X Recipe
 ```
-cmsrel CMSSW_13_0_6
-cd CMSSW_13_0_6/src
+export SCRAM_ARCH=slc7_amd64_gcc10
+cmsrel CMSSW_13_2_6
+cd CMSSW_13_2_6/src
 cmsenv
 git cms-init
 
 git cms-addpkg HLTrigger/Configuration
-git clone -b Run2023 https://github.com/wonpoint4/MuonHLTForRun3.git HLTrigger/Configuration/python/MuonHLTForRun3
+git clone -b Run2024 https://github.com/wonpoint4/MuonHLTForRun3.git HLTrigger/Configuration/python/MuonHLTForRun3
 
-### Data (Efficiency)
-hltGetConfiguration /dev/CMSSW_13_0_0/GRun \
+## Data 2022, 2023 (Efficiency) - no L1 emul
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
  --process MYHLT \
- --data --globaltag 130X_dataRun3_HLT_v2 \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
@@ -25,16 +26,97 @@ HLT_Mu15_v*,\
 HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
- --input /store/data/Run2022F/Muon/RAW-RECO/ZMu-PromptReco-v1/000/361/223/00000/7b6a8758-df56-43a7-88cb-e7392b433042.root \
+ --input /store/data/Run2023D/Muon0/RAW-RECO/ZMu-PromptReco-v2/000/370/772/00000/edf3f5f9-ca18-4985-bf2e-7aac083ec70e.root \
  --eras Run3 \
- --max-events 100 \
- --full --offline --no-output >hlt_muon_data_Run2022.py
+ --max-events -1 \
+ --full --offline --no-output >hlt_muon_data_noDoublet.py
 
+# With Doublet Recovery from TRK
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --unprescale \
+ --paths \
+HLTriggerFirstPath,\
+HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
+HLT_IsoMu24_v*,\
+HLT_Mu50_v*,\
+HLT_CascadeMu100_v*,\
+HLT_HighPtTkMu100_v*,\
+HLT_Mu15_v*,\
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+ --input /store/data/Run2023D/Muon0/RAW-RECO/ZMu-PromptReco-v2/000/370/772/00000/edf3f5f9-ca18-4985-bf2e-7aac083ec70e.root \
+ --eras Run3 \
+ --max-events -1 \
+ --full --offline --no-output >hlt_muon_data_DoubletfromTRK.py
+
+# With OUR Doublet Recovery
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --unprescale \
+ --paths \
+HLTriggerFirstPath,\
+HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
+HLT_IsoMu24_v*,\
+HLT_Mu50_v*,\
+HLT_CascadeMu100_v*,\
+HLT_HighPtTkMu100_v*,\
+HLT_Mu15_v*,\
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+ --input /store/data/Run2023D/Muon0/RAW-RECO/ZMu-PromptReco-v2/000/370/772/00000/edf3f5f9-ca18-4985-bf2e-7aac083ec70e.root \
+ --eras Run3 \
+ --max-events -1 \
+ --customise \
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInMuon \
+ --full --offline --no-output >hlt_muon_data_Doublet.py
+
+## Data (Timing)
+### https://twiki.cern.ch/twiki/bin/viewauth/CMS/TriggerStudiesTiming
+### Output will be at /eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STEAM/timing_server_results/wjun/
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --eras Run3 --timing \
+ --full --offline --output minimal >hlt_muon_data_Timing.py
+
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --eras Run3 --timing \
+ --customise \
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInMuon \
+ --full --offline --output minimal >hlt_muon_data_Timing_Doublet.py
+
+## Data 2022, 2023 (Efficiency) - Full L1 emul
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --unprescale \
+ --paths \
+HLTriggerFirstPath,\
+HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
+HLT_IsoMu24_v*,\
+HLT_Mu50_v*,\
+HLT_CascadeMu100_v*,\
+HLT_HighPtTkMu100_v*,\
+HLT_Mu15_v*,\
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+ --input /store/data/Run2023D/Muon0/RAW-RECO/ZMu-PromptReco-v2/000/370/772/00000/edf3f5f9-ca18-4985-bf2e-7aac083ec70e.root \
+ --eras Run3 --l1-emulator Full --l1 L1Menu_Collisions2023_v1_3_0_xml \
+ --max-events 100 \
+ --full --offline --no-output >hlt_muon_data_Full.py
 
 ### MC (Efficiency)
-hltGetConfiguration /dev/CMSSW_13_0_0/GRun \
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
  --process MYHLT \
- --mc --globaltag 126X_mcRun3_2023_forPU65_v3 \
+ --mc --globaltag 126X_mcRun3_2023_forPU65_forBTag_v1 \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
@@ -75,9 +157,9 @@ HLTAnalyzerEndpath \
 
 
 ## Test run
-cmsRun hlt_muon_data_Run2022.py
-cmsRun hlt_muon_mc_Run3.py
-cmsRun hlt_muon_data_Run2018.py
+cmsRun hlt_muon_data_noDoublet.py
+cmsRun hlt_muon_data_DoubletfromTRK.py
+cmsRun hlt_muon_data_Doublet.py
 ```
 
 ## Ntupler
@@ -89,9 +171,9 @@ vi after_menu_data.sh # See below
 vi after_menu_mc.sh   #	See below
 
 ## Test run
-cat after_menu_data.sh >> hlt_muon_data_Run2022.py
-sed -i 's/numberOfThreads = 4/numberOfThreads = 1/g' hlt_muon_data_Run2022.py
-cmsRun hlt_muon_data_Run2022.py
+cat after_menu_data.sh >> hlt_muon_data_Doublet.py
+sed -i 's/numberOfThreads = 4/numberOfThreads = 1/g' hlt_muon_data_Doublet.py
+cmsRun hlt_muon_data_Doublet.py
 
 cat after_menu_mc.sh >> hlt_muon_mc_Run3.py
 sed -i 's/numberOfThreads = 4/numberOfThreads = 1/g' hlt_muon_mc_Run3.py
@@ -104,13 +186,9 @@ isDIGI = False         # set True (False) for GEN-SIM-DIGI-RAW (GEN-SIM-RAW or D
 
 from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTNtupler import *
 process = customizerFuncForMuonHLTNtupler(process, "MYHLT", isDIGI)
-process.ntupler.hltIter2IterL3MuonPixelSeeds       = cms.untracked.InputTag("hltIter0IterL3MuonPixelSeedsFromPixelTracksFiltered",       "", "MYHLT")
-process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag("hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracksFiltered", "", "MYHLT")
 
 #from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTSeedNtupler import *
 #process = customizerFuncForMuonHLTSeedNtupler(process, "MYHLT", isDIGI)
-#process.seedNtupler.hltIter2IterL3MuonPixelSeeds       = cms.untracked.InputTag("hltIter0IterL3MuonPixelSeedsFromPixelTracksFiltered",       "", "MYHLT")
-#process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag("hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracksFiltered", "", "MYHLT")
 
 # -- L2 seed stat recovery -- #
 #process.hltIterL3MuonPixelTracksTrackingRegions.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
@@ -125,37 +203,15 @@ process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag("hlt
 #    process.hltIterL3MuonsFromL2LinksCombination
 #)
 
-process.HLT_IsoMu24_v17 = cms.Path(
-    process.HLTBeginSequence +
-    cms.ignore(process.hltL1sSingleMu22) +
-    cms.ignore(process.hltPreIsoMu24) +
-    cms.ignore(process.hltL1fL1sMu22L1Filtered0) +
-    process.HLTL2muonrecoSequence +
-    cms.ignore(process.hltL2fL1sSingleMu22L1f0L2Filtered10Q) +
-    process.HLTL3muonrecoSequence +
-    cms.ignore(process.hltL1fForIterL3L1fL1sMu22L1Filtered0) +
-    cms.ignore(process.hltL3fL1sSingleMu22L1f0L2f10QL3Filtered24Q) +
-    process.HLTMu24IsolationSequence +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered) +
-    process.HLTEndSequence
-)
-process.HLTMu24IsolationSequence = cms.Sequence(
-    process.HLTL3muonEcalPFisorecoSequenceNoBoolsForMuons +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3pfecalIsoRhoFiltered) +
-    process.HLTL3muonHcalPFisorecoSequenceNoBoolsForMuons +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3pfhcalIsoRhoFiltered) +
-    process.HLTTrackReconstructionForIsoL3MuonIter02 +
-    process.hltMuonTkRelIsolationCut0p08Map
-)
-
 process.schedule = cms.Schedule(
      process.HLTriggerFirstPath,
-     process.HLT_IsoMu24_v17,
-     process.HLT_Mu50_v17,
-     process.HLT_CascadeMu100_v7,
-     process.HLT_HighPtTkMu100_v6,
-     process.HLT_Mu15_v7,
-     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v9,
+     process.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v25, # to add Doublet Recovery in our menu
+     process.HLT_IsoMu24_v19,
+     process.HLT_Mu50_v19,
+     process.HLT_CascadeMu100_v9,
+     process.HLT_HighPtTkMu100_v8,
+     process.HLT_Mu15_v9,
+     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v11,
      process.HLTriggerFinalPath,
      process.mypath,
      process.myendpath,
@@ -168,13 +224,9 @@ isDIGI = True         # set True (False) for GEN-SIM-DIGI-RAW (GEN-SIM-RAW or Da
 
 from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTNtupler import *
 process = customizerFuncForMuonHLTNtupler(process, "MYHLT", isDIGI)
-process.ntupler.hltIter2IterL3MuonPixelSeeds       = cms.untracked.InputTag("hltIter0IterL3MuonPixelSeedsFromPixelTracksFiltered",       "", "MYHLT")
-process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag("hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracksFiltered", "", "MYHLT")
 
 from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTSeedNtupler import *
 process = customizerFuncForMuonHLTSeedNtupler(process, "MYHLT", isDIGI)
-process.seedNtupler.hltIter2IterL3MuonPixelSeeds       = cms.untracked.InputTag("hltIter0IterL3MuonPixelSeedsFromPixelTracksFiltered",       "", "MYHLT")
-process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag("hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracksFiltered", "", "MYHLT")
 
 # -- L2 seed stat recovery -- #
 #process.hltIterL3MuonPixelTracksTrackingRegions.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
@@ -188,29 +240,6 @@ process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds = cms.untracked.InputTag(
 #    process.HLTIterL3IOmuonTkCandidateSequence +
 #    process.hltIterL3MuonsFromL2LinksCombination
 #)
-
-process.HLT_IsoMu24_v17 = cms.Path(
-    process.HLTBeginSequence +
-    cms.ignore(process.hltL1sSingleMu22) +
-    cms.ignore(process.hltPreIsoMu24) +
-    cms.ignore(process.hltL1fL1sMu22L1Filtered0) +
-    process.HLTL2muonrecoSequence +
-    cms.ignore(process.hltL2fL1sSingleMu22L1f0L2Filtered10Q) +
-    process.HLTL3muonrecoSequence +
-    cms.ignore(process.hltL1fForIterL3L1fL1sMu22L1Filtered0) +
-    cms.ignore(process.hltL3fL1sSingleMu22L1f0L2f10QL3Filtered24Q) +
-    process.HLTMu24IsolationSequence +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered) +
-    process.HLTEndSequence
-)
-process.HLTMu24IsolationSequence = cms.Sequence(
-    process.HLTL3muonEcalPFisorecoSequenceNoBoolsForMuons +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3pfecalIsoRhoFiltered) +
-    process.HLTL3muonHcalPFisorecoSequenceNoBoolsForMuons +
-    cms.ignore(process.hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3pfhcalIsoRhoFiltered) +
-    process.HLTTrackReconstructionForIsoL3MuonIter02 +
-    process.hltMuonTkRelIsolationCut0p08Map
-)
 
 process.source = cms.Source( "PoolSource",
     fileNames = cms.untracked.vstring(
@@ -234,12 +263,12 @@ process.source = cms.Source( "PoolSource",
 
 process.schedule = cms.Schedule(
      process.HLTriggerFirstPath,
-     process.HLT_IsoMu24_v17,
-     process.HLT_Mu50_v17,
-     process.HLT_CascadeMu100_v7,
-     process.HLT_HighPtTkMu100_v6,
-     process.HLT_Mu15_v7,
-     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v9,
+     process.HLT_IsoMu24_v19,
+     process.HLT_Mu50_v19,
+     process.HLT_CascadeMu100_v9,
+     process.HLT_HighPtTkMu100_v8,
+     process.HLT_Mu15_v9,
+     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v11,
      process.HLTriggerFinalPath,
      process.mypath,
      process.myendpath,
