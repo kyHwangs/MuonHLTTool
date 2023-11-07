@@ -31,27 +31,6 @@ HLTAnalyzerEndpath \
  --max-events -1 \
  --full --offline --no-output >hlt_muon_data_noDoublet.py
 
-# With Doublet Recovery from TRK
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
- --process MYHLT \
- --data --globaltag 132X_dataRun3_HLT_v2 \
- --unprescale \
- --paths \
-HLTriggerFirstPath,\
-HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
-HLT_IsoMu24_v*,\
-HLT_Mu50_v*,\
-HLT_CascadeMu100_v*,\
-HLT_HighPtTkMu100_v*,\
-HLT_Mu15_v*,\
-HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
-HLTriggerFinalPath,\
-HLTAnalyzerEndpath \
- --input /store/data/Run2023D/Muon0/RAW-RECO/ZMu-PromptReco-v2/000/370/772/00000/edf3f5f9-ca18-4985-bf2e-7aac083ec70e.root \
- --eras Run3 \
- --max-events -1 \
- --full --offline --no-output >hlt_muon_data_DoubletfromTRK.py
-
 # With OUR Doublet Recovery
 hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
  --process MYHLT \
@@ -59,7 +38,6 @@ hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
-HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
 HLT_IsoMu24_v*,\
 HLT_Mu50_v*,\
 HLT_CascadeMu100_v*,\
@@ -205,7 +183,6 @@ process = customizerFuncForMuonHLTNtupler(process, "MYHLT", isDIGI)
 
 process.schedule = cms.Schedule(
      process.HLTriggerFirstPath,
-     process.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v25, # to add Doublet Recovery in our menu
      process.HLT_IsoMu24_v19,
      process.HLT_Mu50_v19,
      process.HLT_CascadeMu100_v9,

@@ -5,7 +5,7 @@ import datetime
 now = datetime.datetime.now()
 date = now.strftime('%Y%m%d')
 
-submitVersion = 'MuonHLTRun3_cmssw1306'
+submitVersion = 'MuonHLTRun3_cmssw1326'
 mainOutputDir = '/store/group/phys_muon/ec/HLT/%s/%s' % (submitVersion, date)
 
 
@@ -30,8 +30,8 @@ config.Data.allowNonValidInputDataset = True
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
-config.Data.unitsPerJob = 20    # 2(DY) # 20(Data)
-#config.Data.totalUnits = 800 # 800(DY)                                                                                                     ## Only MC
+config.Data.unitsPerJob = 20    # 2(DY) # 12(Data)
+#config.Data.totalUnits = 800 # 800(DY)                                                                                                        ## Only MC
 #config.Data.lumiMask = 'Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON_Last5invfb.txt'                        ## Only Data
 #config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/Cert_Collisions2022_355100_362760_Golden.json'   ## Only Data
 config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json'   ## Only Data
@@ -78,6 +78,7 @@ config.Site.storageSite = 'T2_CH_CERN'
     HLT_menus = [
         #"hlt_muon_mc_Run3.py",
         "hlt_muon_data.py",
+        "hlt_muon_data_Doublet.py",
      ]
 
     # proxy = '"/tmp/x509up_u95096"'
