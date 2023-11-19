@@ -50,7 +50,7 @@ HLTAnalyzerEndpath \
  --eras Run3 \
  --max-events -1 \
  --customise \
-HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInMuon \
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL1 \
  --full --offline --no-output >hlt_muon_data_Doublet.py
 
 ## Data (Timing)
@@ -67,8 +67,17 @@ hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --eras Run3 --timing \
  --customise \
-HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInMuon \
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL1 \
  --full --offline --output minimal >hlt_muon_data_Timing_Doublet.py
+
+hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
+ --process MYHLT \
+ --data --globaltag 132X_dataRun3_HLT_v2 \
+ --eras Run3 --timing \
+ --customise \
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL1,\
+HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL2 \
+ --full --offline --output minimal >hlt_muon_data_Timing_Doublet_L1L2.py
 
 ## Data 2022, 2023 (Efficiency) - Full L1 emul
 hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
@@ -94,7 +103,7 @@ HLTAnalyzerEndpath \
 ### MC (Efficiency)
 hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
  --process MYHLT \
- --mc --globaltag 126X_mcRun3_2023_forPU65_forBTag_v1 \
+ --mc --globaltag 130X_mcRun3_2023_forPU65_v1 \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
@@ -107,10 +116,12 @@ HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
  --input /store/mc/Run3Winter23Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40000/4b79f858-07ac-4aad-962f-e9473f3141a6.root \
- --eras Run3 \
+ --eras Run3 --l1-emulator FullMC --l1 L1Menu_Collisions2023_v1_2_0_xml \
  --max-events 100 \
  --full --offline --no-output >hlt_muon_mc_Run3.py
 
+sed -i 's/numberOfThreads = 4/numberOfThreads = 1/g' hlt_muon_mc_Run3.py
+cat after_menu_mc.sh >> hlt_muon_mc_Run3.py
 
 ### 2018Data (Efficiency)
 hltGetConfiguration /dev/CMSSW_13_0_0/GRun \
