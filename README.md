@@ -1,10 +1,10 @@
 # MuonHLT Ntupler
 
-## Run3 132X Recipe
+## Run3 133X Recipe
 ```
-export SCRAM_ARCH=slc7_amd64_gcc10
-cmsrel CMSSW_13_2_6
-cd CMSSW_13_2_6/src
+export SCRAM_ARCH=el8_amd64_gcc10
+cmsrel CMSSW_13_3_1_patach1
+cd CMSSW_13_3_1_patch1/src
 cmsenv
 git cms-init
 
@@ -12,7 +12,7 @@ git cms-addpkg HLTrigger/Configuration
 git clone -b Run2024 https://github.com/wonpoint4/MuonHLTForRun3.git HLTrigger/Configuration/python/MuonHLTForRun3
 
 ## Data 2022, 2023 (Efficiency) - no L1 emul
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun \
  --process MYHLT \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --unprescale \
@@ -32,12 +32,13 @@ HLTAnalyzerEndpath \
  --full --offline --no-output >hlt_muon_data_noDoublet.py
 
 # With OUR Doublet Recovery
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun \
  --process MYHLT \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
+HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*,\
 HLT_IsoMu24_v*,\
 HLT_Mu50_v*,\
 HLT_CascadeMu100_v*,\
@@ -56,13 +57,13 @@ HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletReco
 ## Data (Timing)
 ### https://twiki.cern.ch/twiki/bin/viewauth/CMS/TriggerStudiesTiming
 ### Output will be at /eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STEAM/timing_server_results/wjun/
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun/V72 \
  --process MYHLT \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --eras Run3 --timing \
  --full --offline --output minimal >hlt_muon_data_Timing.py
 
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun/V72 \
  --process MYHLT \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --eras Run3 --timing \
@@ -70,17 +71,8 @@ hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
 HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL1 \
  --full --offline --output minimal >hlt_muon_data_Timing_Doublet.py
 
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun/V72 \
- --process MYHLT \
- --data --globaltag 132X_dataRun3_HLT_v2 \
- --eras Run3 --timing \
- --customise \
-HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL1,\
-HLTrigger/Configuration/MuonHLTForRun3/customizeMuonHLTForRun3.enableDoubletRecoveryInIOFromL2 \
- --full --offline --output minimal >hlt_muon_data_Timing_Doublet_L1L2.py
-
 ## Data 2022, 2023 (Efficiency) - Full L1 emul
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun \
  --process MYHLT \
  --data --globaltag 132X_dataRun3_HLT_v2 \
  --unprescale \
@@ -101,9 +93,9 @@ HLTAnalyzerEndpath \
  --full --offline --no-output >hlt_muon_data_Full.py
 
 ### MC (Efficiency)
-hltGetConfiguration /dev/CMSSW_13_2_0/GRun \
+hltGetConfiguration /dev/CMSSW_13_3_0/GRun \
  --process MYHLT \
- --mc --globaltag 130X_mcRun3_2023_forPU65_v1 \
+ --mc --globaltag auto:phase1_2023_realistic \
  --unprescale \
  --paths \
 HLTriggerFirstPath,\
@@ -115,13 +107,14 @@ HLT_Mu15_v*,\
 HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
- --input /store/mc/Run3Winter23Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40000/4b79f858-07ac-4aad-962f-e9473f3141a6.root \
- --eras Run3 --l1-emulator FullMC --l1 L1Menu_Collisions2023_v1_2_0_xml \
+ --input /store/mc/Run3Winter24Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50000/1066aeda-aac7-43ef-9599-f531496d32fd.root \
+ --eras Run3 --l1-emulator FullMC --l1 L1Menu_Collisions2023_v1_3_0_xml \
  --max-events 100 \
- --full --offline --no-output >hlt_muon_mc_Run3.py
+ --full --offline --no-output >hlt_muon_mc.py
 
-sed -i 's/numberOfThreads = 4/numberOfThreads = 1/g' hlt_muon_mc_Run3.py
-cat after_menu_mc.sh >> hlt_muon_mc_Run3.py
+# Winter23 :  --input /store/mc/Run3Winter23Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/2540000/50afc1f9-64ad-4ae3-8cc3-a43f28776b94.root \
+# Summer23BPix :  --input /store/mc/Run3Summer23BPixDRPremix/DYto2L_M-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_130X_mcRun3_2023_realistic_postBPix_v2-v3/2560000/106765c3-6838-4ef8-bd9c-7487e3ab034e.root \
+
 
 ### 2018Data (Efficiency)
 hltGetConfiguration /dev/CMSSW_13_0_0/GRun \
@@ -217,32 +210,33 @@ from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTSeedNtupler import *
 process = customizerFuncForMuonHLTSeedNtupler(process, "MYHLT", isDIGI)
 
 # -- L2 seed stat recovery -- #
-#process.hltIterL3MuonPixelTracksTrackingRegions.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
-#process.hltL3MuonsIterL3IO.L3TrajBuilderParameters.MuonTrackingRegionBuilder.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
-#process.HLTIterL3OIAndIOFromL2muonTkCandidateSequence = cms.Sequence(
-#    process.HLTIterL3OImuonTkCandidateSequence +
-#    process.hltIterL3OIL3MuonsLinksCombination +
-#    process.hltIterL3OIL3Muons +
-#    process.hltIterL3OIL3MuonCandidates +
-#    #process.hltL2SelectorForL3IO +
-#    process.HLTIterL3IOmuonTkCandidateSequence +
-#    process.hltIterL3MuonsFromL2LinksCombination
+process.hltIterL3MuonPixelTracksTrackingRegions.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
+process.hltL3MuonsIterL3IO.L3TrajBuilderParameters.MuonTrackingRegionBuilder.input = cms.InputTag( 'hltL2Muons','UpdatedAtVtx' )
+process.HLTIterL3OIAndIOFromL2muonTkCandidateSequence = cms.Sequence(
+    process.HLTIterL3OImuonTkCandidateSequence +
+    process.hltIterL3OIL3MuonsLinksCombination +
+    process.hltIterL3OIL3Muons +
+    process.hltIterL3OIL3MuonCandidates +
+    #process.hltL2SelectorForL3IO +
+    process.HLTIterL3IOmuonTkCandidateSequence +
+    process.hltIterL3MuonsFromL2LinksCombination
 #)
 
 process.source = cms.Source( "PoolSource",
     fileNames = cms.untracked.vstring(
-        '/store/mc/Run3Winter23Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40000/4b79f858-07ac-4aad-962f-e9473f3141a6.root',
+        '/store/mc/Run3Winter24Reco/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/AODSIM/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50000/1066aeda-aac7-43ef-9599-f531496d32fd.root ',
     ),
     secondaryFileNames=cms.untracked.vstring(
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/0f51e203-dfd7-4c0e-8f3d-552f1edefa80.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/142265be-53cf-4204-915d-487cd3ae3878.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/172430e4-84f4-4610-812b-b05ef45b6ca2.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/19287029-b952-4d44-9cea-30f0f111ee6c.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/89c74e90-e99d-4bcd-8718-c38b8e39828e.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/a4908eb5-2532-4eef-8832-2149628e8586.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/bb3fb0a6-a20b-43bf-b4b1-8bafca94aebd.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/db7e130d-3b8f-4bee-974d-a399c9d440d1.root',
-        '/store/mc/Run3Winter23Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_RnD_126X_mcRun3_2023_forPU65_v1-v2/40006/f682d635-1eec-4d64-96d3-88c4ee85b00a.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/0a3a1e50-ae4e-4105-a88a-04108871b5b3.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/3e745ce9-88f1-4ac0-b945-d714acccfc4b.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/4e877d16-199b-440e-aede-c75e7228ef22.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/8723351d-8657-4cc7-8e47-38645f3f51f8.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/b05a5d60-89ec-497d-8620-ac7df9bcc66c.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/c91c215f-78d5-4e63-b425-bb0699b83186.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/cc63de5e-d7f5-4976-b2be-e64e03977eed.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/d9944467-85bd-4573-a001-72a9946b3199.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/ea271ea5-2f8f-4236-8d4d-81dcfebb5654.root',
+        '/store/mc/Run3Winter24Digi/DYTo2L_MLL-50_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/KeepSi_133X_mcRun3_2024_realistic_v8-v2/50009/ef0f4597-9c8d-47ca-a5dd-8de787b3d975.root',
     ),
     inputCommands = cms.untracked.vstring(
         'keep *'
