@@ -1,13 +1,13 @@
-from CRABClient.UserUtilities import config, getUsernameFromCRIC
+from CRABClient.UserUtilities import config, getUsername
 import sys, os
 import gc
 import datetime
 now = datetime.datetime.now()
 date = now.strftime('%Y%m%d')
 
-submitVersion = 'MuonHLTRun3_cmssw1331patch1'
+submitVersion = 'MuonHLTRun3_cmssw1440'
 #mainOutputDir = '/store/group/phys_muon/ec/HLT/%s/%s' % (submitVersion, date)
-mainOutputDir = '/store/user/%s/%s/%s' % (getUsernameFromCRIC(), submitVersion, date)
+mainOutputDir = '/store/user/%s/%s/%s' % (getUsername(), submitVersion, date)
 
 
 # 'MultiCRAB' part
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # from CRABAPI.RawCommand import crabCommand
 
     crab_cfg = """
-from CRABClient.UserUtilities import config, getUsernameFromCRIC
+from CRABClient.UserUtilities import config, getUsername
 
 config = config()
 
@@ -37,6 +37,7 @@ config.Data.unitsPerJob = 1    # 1(DY) # 20(Data)
 #config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/Cert_Collisions2022_355100_362760_Golden.json'   ## Only Data
 #config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json'   ## Only Data
 
+config.JobType.maxJobRuntimeMin = 2740
 config.Data.outLFNDirBase = '%(mainOutputDir)s'
 config.Data.publication = False
 #config.Site.storageSite = 'T2_CH_CERN'
