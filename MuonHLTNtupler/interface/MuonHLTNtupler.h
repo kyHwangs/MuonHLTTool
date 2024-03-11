@@ -295,6 +295,14 @@ private:
   int    genParticle_l1qByQ_[arrSize_];
   double genParticle_l1drByQ_[arrSize_];
 
+  int genParticle_nl1t_[arrSize_];
+  vector<vector<double>> genParticle_l1tpt_;
+  vector<vector<double>> genParticle_l1teta_;
+  vector<vector<double>> genParticle_l1tphi_;
+  vector<vector<double>> genParticle_l1tcharge_;
+  vector<vector<double>> genParticle_l1tq_;
+  vector<vector<double>> genParticle_l1tdr_;
+
   // -- trigger info.
   vector< std::string > vec_firedTrigger_;
   vector< std::string > vec_filterName_;

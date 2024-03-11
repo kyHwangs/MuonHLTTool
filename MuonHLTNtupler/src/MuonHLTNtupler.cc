@@ -384,6 +384,14 @@ void MuonHLTNtupler::Init()
     genParticle_l1chargeByQ_[i] = -999;
     genParticle_l1qByQ_[i]      = -999;
     genParticle_l1drByQ_[i]     = -999;
+
+    genParticle_nl1t_[i]        = -999;
+    genParticle_l1tpt_.clear();
+    genParticle_l1teta_.clear();
+    genParticle_l1tphi_.clear();
+    genParticle_l1tcharge_.clear();
+    genParticle_l1tq_.clear();
+    genParticle_l1tdr_.clear();
   }
 
   // -- original trigger objects -- //
@@ -885,6 +893,14 @@ void MuonHLTNtupler::Make_Branch()
   ntuple_->Branch("genParticle_l1chargeByQ", &genParticle_l1chargeByQ_, "genParticle_l1chargeByQ[nGenParticle]/D");
   ntuple_->Branch("genParticle_l1qByQ", &genParticle_l1qByQ_, "genParticle_l1qByQ[nGenParticle]/I");
   ntuple_->Branch("genParticle_l1drByQ", &genParticle_l1drByQ_, "genParticle_l1drByQ[nGenParticle]/D");
+
+  ntuple_->Branch("genParticle_nl1t", &genParticle_nl1t_, "genParticle_nl1t[nGenParticle]/I");
+  ntuple_->Branch("genParticle_l1tpt", &genParticle_l1tpt_);
+  ntuple_->Branch("genParticle_l1teta", &genParticle_l1teta_);
+  ntuple_->Branch("genParticle_l1tphi", &genParticle_l1tphi_);
+  ntuple_->Branch("genParticle_l1tcharge", &genParticle_l1tcharge_);
+  ntuple_->Branch("genParticle_l1tq", &genParticle_l1tq_);
+  ntuple_->Branch("genParticle_l1tdr", &genParticle_l1tdr_);
 
   ntuple_->Branch("vec_firedTrigger", &vec_firedTrigger_);
   ntuple_->Branch("vec_filterName", &vec_filterName_);
@@ -1791,6 +1807,46 @@ void MuonHLTNtupler::Fill_GenParticle(const edm::Event &iEvent)
         genParticle_l1drByQ_[_nGenParticle]      = (*h_genl1DrsByQ)[genRef];
       }
 
+      double etaForMatch = parCand.eta();
+      double phiForMatch = parCand.phi();
+
+      int _nMatchedL1t = 0;
+      edm::Handle<l1t::MuonBxCollection> h_L1Muon;
+      std::vector<double> genParticle_l1tpt_tmp = {};
+      std::vector<double> genParticle_l1teta_tmp = {};
+      std::vector<double> genParticle_l1tphi_tmp = {};
+      std::vector<double> genParticle_l1tcharge_tmp = {};
+      std::vector<double> genParticle_l1tq_tmp = {};
+      std::vector<double> genParticle_l1tdr_tmp = {};
+
+      if( iEvent.getByToken(t_L1Muon_, h_L1Muon) )
+        {
+          for(int ibx = h_L1Muon->getFirstBX(); ibx<=h_L1Muon->getLastBX(); ++ibx)
+            {
+              if(ibx != 0) continue; // -- only take when ibx == 0 -- //
+              for(auto it=h_L1Muon->begin(ibx); it!=h_L1Muon->end(ibx); it++)
+                {
+                  l1t::MuonRef l1t(h_L1Muon, distance(h_L1Muon->begin(h_L1Muon->getFirstBX()), it) );
+                  if (deltaR(etaForMatch, phiForMatch, l1t->eta(), l1t->phi()) > 0.5) continue;
+
+                  genParticle_l1tpt_tmp.push_back(l1t->pt());
+                  genParticle_l1teta_tmp.push_back(l1t->eta());
+                  genParticle_l1tphi_tmp.push_back(l1t->phi());
+                  genParticle_l1tcharge_tmp.push_back(l1t->charge());
+                  genParticle_l1tq_tmp.push_back(l1t->hwQual());
+                  genParticle_l1tdr_tmp.push_back(deltaR(etaForMatch, phiForMatch, l1t->eta(), l1t->phi()));
+
+                  _nMatchedL1t++;
+                }
+            }
+        }
+      genParticle_l1tpt_.push_back(genParticle_l1tpt_tmp);
+      genParticle_l1teta_.push_back(genParticle_l1teta_tmp);
+      genParticle_l1tphi_.push_back(genParticle_l1tphi_tmp);
+      genParticle_l1tcharge_.push_back(genParticle_l1tcharge_tmp);
+      genParticle_l1tq_.push_back(genParticle_l1tq_tmp);
+      genParticle_l1tdr_.push_back(genParticle_l1tdr_tmp);
+      genParticle_nl1t_[_nGenParticle] = _nMatchedL1t;
       _nGenParticle++;
     }
   }
