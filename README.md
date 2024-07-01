@@ -3,8 +3,8 @@
 ## Run3 140X Recipe
 ```
 export SCRAM_ARCH=el8_amd64_gcc12
-cmsrel CMSSW_14_0_6
-cd CMSSW_14_0_6/src
+cmsrel CMSSW_14_0_9
+cd CMSSW_14_0_9/src
 cmsenv
 git cms-init
 
@@ -12,7 +12,7 @@ git cms-addpkg HLTrigger/Configuration
 git clone -b Run2024 https://github.com/wonpoint4/MuonHLTForRun3.git HLTrigger/Configuration/python/MuonHLTForRun3
 
 ## Data (Efficiency) - no L1 emul
-hltGetConfiguration /dev/CMSSW_14_0_0/GRun \
+hltGetConfiguration /dev/CMSSW_14_0_0/GRun/V148 \
  --process MYHLT \
  --data --globaltag 140X_dataRun3_HLT_for2024TSGStudies_v1 \
  --unprescale \
@@ -30,6 +30,25 @@ HLTAnalyzerEndpath \
  --eras Run3 \
  --max-events -1 \
  --full --offline --no-output >hlt_muon_data.py
+
+hltGetConfiguration /users/missirol/test/dev/CMSSW_14_0_0/CMSHLT_3224/Test03/GRun/V2 \
+ --process MYHLT \
+ --data --globaltag 140X_dataRun3_HLT_for2024TSGStudies_v1 \
+ --unprescale \
+ --paths \
+HLTriggerFirstPath,\
+HLT_IsoMu24_v*,\
+HLT_Mu50_v*,\
+HLT_CascadeMu100_v*,\
+HLT_HighPtTkMu100_v*,\
+HLT_Mu15_v*,\
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+ --input /store/data/Run2024C/Muon0/RAW-RECO/ZMu-PromptReco-v1/000/379/774/00000/80a17af7-6739-4ca5-90af-923442f2a321.root \
+ --eras Run3 \
+ --max-events -1 \
+ --full --offline --no-output >hlt_muon_data_CSC.py
 
 # With BDT in Iter3FromL1
 hltGetConfiguration /dev/CMSSW_14_0_0/GRun \
@@ -157,12 +176,12 @@ process = customizerFuncForMuonHLTNtupler(process, "MYHLT", isDIGI)
 
 process.schedule = cms.Schedule(
      process.HLTriggerFirstPath,
-     process.HLT_IsoMu24_v21,
-     process.HLT_Mu50_v21,
+     process.HLT_IsoMu24_v23,
+     process.HLT_Mu50_v23,
      process.HLT_CascadeMu100_v11,
      process.HLT_HighPtTkMu100_v10,
-     process.HLT_Mu15_v11,
-     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v13,
+     process.HLT_Mu15_v13,
+     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v15,
      process.HLTriggerFinalPath,
      process.mypath,
      process.myendpath,
@@ -218,12 +237,12 @@ process.source = cms.Source( "PoolSource",
 
 process.schedule = cms.Schedule(
      process.HLTriggerFirstPath,
-     process.HLT_IsoMu24_v21,
-     process.HLT_Mu50_v21,
+     process.HLT_IsoMu24_v23,
+     process.HLT_Mu50_v23,
      process.HLT_CascadeMu100_v11,
      process.HLT_HighPtTkMu100_v10,
-     process.HLT_Mu15_v11,
-     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v13,
+     process.HLT_Mu15_v13,
+     process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v15,
      process.HLTriggerFinalPath,
      process.mypath,
      process.myendpath,
