@@ -143,6 +143,8 @@ Cannot convert l1t::TrackerMuon::muRef_ from type: vector<edm::Ref<BXVector<l1t:
 
 ----- End Fatal Exception -------------------------------------------------
 ```
+For CMSSW_14_1_0_pre7, we should drop `l1tTrackerMuons_l1tTkMuonsGmt__HLT` after L1TrackTrigger step. But we need it during HLT phase. It seems there is some error on that branch while reding it under CMSSW_14_1_0_pre7.
+If we can use CMSSW_14_1_0_pre5 which do not need to L1 again before HLT, **but to utillize patatrack, we should uesr CMSSW_14_1_0_pre7**.
 
 To make ntuple, we should modify [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py) to [rerunL1HLT_ntuple_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_ntuple_cfg.py).
 
