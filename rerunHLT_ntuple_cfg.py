@@ -104,50 +104,75 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T33', ''
 # Path and EndPath definitions
 process.Phase2L1GTProducer = cms.Path(process.l1tGTProducerSequence)
 process.Phase2L1GTAlgoBlockProducer = cms.Path(process.l1tGTAlgoBlockProducerSequence)
-process.TripleTkMuon_5_3_0_DoubleTkMuon_5_3_OS_MassTo9 = cms.Path(process.TripleTkMuon530OSMassMax9)
-process.TripleTkMuon_5_3p5_2p5_OS_Mass5to17 = cms.Path(process.TripleTkMuon53p52p5OSMass5to17)
-process.pDoubleEGEle37_24 = cms.Path(process.DoubleEGEle3724)
-process.pDoubleIsoTkPho22_12 = cms.Path(process.DoubleIsoTkPho2212)
-process.pDoublePuppiJet112_112 = cms.Path(process.DoublePuppiJet112112)
-process.pDoublePuppiJet160_35_mass620 = cms.Path(process.DoublePuppiJet16035Mass620)
-process.pDoublePuppiTau52_52 = cms.Path(process.DoublePuppiTau5252)
-process.pDoubleTkEle25_12 = cms.Path(process.DoubleTkEle2512)
-process.pDoubleTkElePuppiHT_8_8_390 = cms.Path(process.DoubleTkElePuppiHT)
-process.pDoubleTkMuPuppiHT_3_3_300 = cms.Path(process.DoubleTkMuPuppiHT)
-process.pDoubleTkMuPuppiJetPuppiMet_3_3_60_130 = cms.Path(process.DoubleTkMuPuppiJetPuppiMet)
-process.pDoubleTkMuon15_7 = cms.Path(process.DoubleTkMuon157)
-process.pDoubleTkMuonTkEle5_5_9 = cms.Path(process.DoubleTkMuonTkEle559)
-process.pDoubleTkMuon_4_4_OS_Dr1p2 = cms.Path(process.DoubleTkMuon44OSDr1p2)
-process.pDoubleTkMuon_4p5_4p5_OS_Er2_Mass7to18 = cms.Path(process.DoubleTkMuon4p5OSEr2Mass7to18)
-process.pDoubleTkMuon_OS_Er1p5_Dr1p4 = cms.Path(process.DoubleTkMuonOSEr1p5Dr1p4)
-process.pIsoTkEleEGEle22_12 = cms.Path(process.IsoTkEleEGEle2212)
-process.pNNPuppiTauPuppiMet_55_190 = cms.Path(process.NNPuppiTauPuppiMet)
-process.pPuppiHT400 = cms.Path(process.PuppiHT400)
-process.pPuppiHT450 = cms.Path(process.PuppiHT450)
-process.pPuppiMET200 = cms.Path(process.PuppiMET200)
-process.pPuppiMHT140 = cms.Path(process.PuppiMHT140)
-process.pPuppiTauTkIsoEle45_22 = cms.Path(process.PuppiTauTkIsoEle4522)
-process.pPuppiTauTkMuon42_18 = cms.Path(process.PuppiTauTkMuon4218)
-process.pQuadJet70_55_40_40 = cms.Path(process.QuadJet70554040)
-process.pSingleEGEle51 = cms.Path(process.SingleEGEle51)
-process.pSingleIsoTkEle28 = cms.Path(process.SingleIsoTkEle28)
-process.pSingleIsoTkPho36 = cms.Path(process.SingleIsoTkPho36)
-process.pSinglePuppiJet230 = cms.Path(process.SinglePuppiJet230)
-process.pSingleTkEle36 = cms.Path(process.SingleTkEle36)
-process.pSingleTkMuon22 = cms.Path(process.SingleTkMuon22)
-process.pTkEleIsoPuppiHT_26_190 = cms.Path(process.TkEleIsoPuppiHT)
-process.pTkElePuppiJet_28_40_MinDR = cms.Path(process.TkElePuppiJetMinDR)
-process.pTkEleTkMuon10_20 = cms.Path(process.TkEleTkMuon1020)
-process.pTkMuPuppiJetPuppiMet_3_110_120 = cms.Path(process.TkMuPuppiJetPuppiMet)
-process.pTkMuTriPuppiJet_12_40_dRMax_DoubleJet_dEtaMax = cms.Path(process.TkMuTriPuppiJetdRMaxDoubleJetdEtaMax)
-process.pTkMuonDoubleTkEle6_17_17 = cms.Path(process.TkMuonDoubleTkEle61717)
-process.pTkMuonPuppiHT6_320 = cms.Path(process.TkMuonPuppiHT6320)
-process.pTkMuonTkEle7_23 = cms.Path(process.TkMuonTkEle723)
-process.pTkMuonTkIsoEle7_20 = cms.Path(process.TkMuonTkIsoEle720)
-process.pTripleTkMuon5_3_3 = cms.Path(process.TripleTkMuon533)
-process.L1T_DoubleNNTau52 = cms.Path(process.HLTL1Sequence+process.hltL1DoubleNNTau52)
-process.L1T_SingleNNTau150 = cms.Path(process.HLTL1Sequence+process.hltL1SingleNNTau150)
-process.endjob_step = cms.EndPath(process.endOfProcess)
+# process.TripleTkMuon_5_3_0_DoubleTkMuon_5_3_OS_MassTo9 = cms.Path(process.TripleTkMuon530OSMassMax9)
+# process.TripleTkMuon_5_3p5_2p5_OS_Mass5to17 = cms.Path(process.TripleTkMuon53p52p5OSMass5to17)
+# process.pDoubleEGEle37_24 = cms.Path(process.DoubleEGEle3724)
+# process.pDoubleIsoTkPho22_12 = cms.Path(process.DoubleIsoTkPho2212)
+# process.pDoublePuppiJet112_112 = cms.Path(process.DoublePuppiJet112112)
+# process.pDoublePuppiJet160_35_mass620 = cms.Path(process.DoublePuppiJet16035Mass620)
+# process.pDoublePuppiTau52_52 = cms.Path(process.DoublePuppiTau5252)
+# process.pDoubleTkEle25_12 = cms.Path(process.DoubleTkEle2512)
+# process.pDoubleTkElePuppiHT_8_8_390 = cms.Path(process.DoubleTkElePuppiHT)
+# process.pDoubleTkMuPuppiHT_3_3_300 = cms.Path(process.DoubleTkMuPuppiHT)
+# process.pDoubleTkMuPuppiJetPuppiMet_3_3_60_130 = cms.Path(process.DoubleTkMuPuppiJetPuppiMet)
+# process.pDoubleTkMuon15_7 = cms.Path(process.DoubleTkMuon157)
+# process.pDoubleTkMuonTkEle5_5_9 = cms.Path(process.DoubleTkMuonTkEle559)
+# process.pDoubleTkMuon_4_4_OS_Dr1p2 = cms.Path(process.DoubleTkMuon44OSDr1p2)
+# process.pDoubleTkMuon_4p5_4p5_OS_Er2_Mass7to18 = cms.Path(process.DoubleTkMuon4p5OSEr2Mass7to18)
+# process.pDoubleTkMuon_OS_Er1p5_Dr1p4 = cms.Path(process.DoubleTkMuonOSEr1p5Dr1p4)
+# process.pIsoTkEleEGEle22_12 = cms.Path(process.IsoTkEleEGEle2212)
+# process.pNNPuppiTauPuppiMet_55_190 = cms.Path(process.NNPuppiTauPuppiMet)
+# process.pPuppiHT400 = cms.Path(process.PuppiHT400)
+# process.pPuppiHT450 = cms.Path(process.PuppiHT450)
+# process.pPuppiMET200 = cms.Path(process.PuppiMET200)
+# process.pPuppiMHT140 = cms.Path(process.PuppiMHT140)
+# process.pPuppiTauTkIsoEle45_22 = cms.Path(process.PuppiTauTkIsoEle4522)
+# process.pPuppiTauTkMuon42_18 = cms.Path(process.PuppiTauTkMuon4218)
+# process.pQuadJet70_55_40_40 = cms.Path(process.QuadJet70554040)
+# process.pSingleEGEle51 = cms.Path(process.SingleEGEle51)
+# process.pSingleIsoTkEle28 = cms.Path(process.SingleIsoTkEle28)
+# process.pSingleIsoTkPho36 = cms.Path(process.SingleIsoTkPho36)
+# process.pSinglePuppiJet230 = cms.Path(process.SinglePuppiJet230)
+# process.pSingleTkEle36 = cms.Path(process.SingleTkEle36)
+# process.pSingleTkMuon22 = cms.Path(process.SingleTkMuon22)
+# process.pTkEleIsoPuppiHT_26_190 = cms.Path(process.TkEleIsoPuppiHT)
+# process.pTkElePuppiJet_28_40_MinDR = cms.Path(process.TkElePuppiJetMinDR)
+# process.pTkEleTkMuon10_20 = cms.Path(process.TkEleTkMuon1020)
+# process.pTkMuPuppiJetPuppiMet_3_110_120 = cms.Path(process.TkMuPuppiJetPuppiMet)
+# process.pTkMuTriPuppiJet_12_40_dRMax_DoubleJet_dEtaMax = cms.Path(process.TkMuTriPuppiJetdRMaxDoubleJetdEtaMax)
+# process.pTkMuonDoubleTkEle6_17_17 = cms.Path(process.TkMuonDoubleTkEle61717)
+# process.pTkMuonPuppiHT6_320 = cms.Path(process.TkMuonPuppiHT6320)
+# process.pTkMuonTkEle7_23 = cms.Path(process.TkMuonTkEle723)
+# process.pTkMuonTkIsoEle7_20 = cms.Path(process.TkMuonTkIsoEle720)
+# process.pTripleTkMuon5_3_3 = cms.Path(process.TripleTkMuon533)
+# process.L1T_DoubleNNTau52 = cms.Path(process.HLTL1Sequence+process.hltL1DoubleNNTau52)
+# process.L1T_SingleNNTau150 = cms.Path(process.HLTL1Sequence+process.hltL1SingleNNTau150)
+# process.endjob_step = cms.EndPath(process.endOfProcess)
+
+import HLTrigger.Configuration.HLT_75e33.paths.L1T_SingleTkMuon_22_cfi as L1T_SingleTkMuon_22_cfi
+process.L1T_SingleTkMuon_22 = L1T_SingleTkMuon_22_cfi.L1T_SingleTkMuon_22
+    
+import HLTrigger.Configuration.HLT_75e33.paths.L1T_DoubleTkMuon_15_7_cfi as L1T_DoubleTkMuon_15_7_cfi
+process.L1T_DoubleTkMuon_15_7 = L1T_DoubleTkMuon_15_7_cfi.L1T_DoubleTkMuon_15_7
+
+import HLTrigger.Configuration.HLT_75e33.paths.L1T_TripleTkMuon_5_3_3_cfi as L1T_TripleTkMuon_5_3_3_cfi
+process.L1T_TripleTkMuon_5_3_3 = L1T_TripleTkMuon_5_3_3_cfi.L1T_TripleTkMuon_5_3_3
+
+import HLTrigger.Configuration.HLT_75e33.paths.HLT_Mu50_FromL1TkMuon_cfi as HLT_Mu50_FromL1TkMuon_cfi
+process.HLT_Mu50_FromL1TkMuon = HLT_Mu50_FromL1TkMuon_cfi.HLT_Mu50_FromL1TkMuon
+
+import HLTrigger.Configuration.HLT_75e33.paths.HLT_IsoMu24_FromL1TkMuon_cfi as HLT_IsoMu24_FromL1TkMuon_cfi
+process.HLT_IsoMu24_FromL1TkMuon = HLT_IsoMu24_FromL1TkMuon_cfi.HLT_IsoMu24_FromL1TkMuon
+
+import HLTrigger.Configuration.HLT_75e33.paths.HLT_Mu37_Mu27_FromL1TkMuon_cfi as HLT_Mu37_Mu27_FromL1TkMuon_cfi
+process.HLT_Mu37_Mu27_FromL1TkMuon = HLT_Mu37_Mu27_FromL1TkMuon_cfi.HLT_Mu37_Mu27_FromL1TkMuon
+
+import HLTrigger.Configuration.HLT_75e33.paths.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon_cfi as HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon_cfi
+process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon = HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon_cfi.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon
+
+import HLTrigger.Configuration.HLT_75e33.paths.HLT_TriMu_10_5_5_DZ_FromL1TkMuon_cfi as HLT_TriMu_10_5_5_DZ_FromL1TkMuon_cfi
+process.HLT_TriMu_10_5_5_DZ_FromL1TkMuon = HLT_TriMu_10_5_5_DZ_FromL1TkMuon_cfi.HLT_TriMu_10_5_5_DZ_FromL1TkMuon
+
 # process.FEVTDEBUGHLToutput_step = cms.EndPath(process.FEVTDEBUGHLToutput)
 
 # Schedule definition
@@ -311,7 +336,7 @@ process.schedule = cms.Schedule(
     process.myseedpath
     # process.DQMOutput
     # process.EDMOutput
-)
+ )
 
 # -- #
 
