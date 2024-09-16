@@ -121,6 +121,29 @@ cmsDriver.py Phase2 -s L1,L1TrackTrigger,L1P2GT,HLT:75e33 --processName=HLTX \
 --no_exec
 ```
 
+### problem with original config: [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py)
+
+1. Missing entry `l1tTkMuonsGmt` from [rerunL1HLT_cfg.py#L115](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py#L115)
+```
+----- Begin Fatal Exception 16-Sep-2024 19:48:05 CEST-----------------------
+An exception of category 'FileReadError' occurred while
+   [0] Processing  Event run: 1 lumi: 982 event: 981002 stream: 0
+   [1] Running path 'MC_BTV'
+   [2] Prefetching for module CSCRecHitDProducer/'hltCsc2DRecHits'
+   [3] While reading from source MuonDigiCollection<CSCDetId,CSCStripDigi> simMuonCSCDigis 'MuonCSCStripDigi' HLT
+   [4] Rethrowing an exception that happened on a different read request.
+   [5] Processing  Event run: 1 lumi: 982 event: 981002 stream: 0
+   [6] Running path 'HLTriggerFinalPath'
+   [7] Prefetching for module TriggerSummaryProducerAOD/'hltTriggerSummaryAOD'
+   [8] While reading from source std::vector<l1t::TrackerMuon> l1tTkMuonsGmt '' HLT
+   [9] Reading branch l1tTrackerMuons_l1tTkMuonsGmt__HLT.
+   Additional Info:
+      [a] Fatal Root Error: @SUB=TStreamerInfo::BuildOld
+Cannot convert l1t::TrackerMuon::muRef_ from type: vector<edm::Ref<BXVector<l1t::RegionalMuonCand>,l1t::RegionalMuonCand,edm::refhelper::FindUsingAdvance<BXVector<l1t::RegionalMuonCand>,l1t::RegionalMuonCand> > > to type: vector<edm::Ref<vector<l1t::SAMuon>,l1t::SAMuon,edm::refhelper::FindUsingAdvance<vector<l1t::SAMuon>,l1t::SAMuon> > >, skip element
+
+----- End Fatal Exception -------------------------------------------------
+```
+
 To make ntuple, we should modify [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py) to [rerunL1HLT_ntuple_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_ntuple_cfg.py).
 
-The problem is this L1 by-pass is that it couldn't find `process.Phase2L1GTAlgoBlockProducer` in [rerunL1HLT_ntuple_cfg.py#L317](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_ntuple_cfg.py#L317).
+
