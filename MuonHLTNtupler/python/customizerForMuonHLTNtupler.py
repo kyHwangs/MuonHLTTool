@@ -257,7 +257,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     # process.ntupler.MCTruthTrackInputTag = cms.InputTag("TTTrackAssociatorFromPixelDigis", "Level1TTTracks")  ## MCTruth input
     # process.ntupler.L1StubInputTag = cms.InputTag("TTStubsFromPhase2TrackerDigis","StubAccepted")
     process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons", "", newProcessName)
-    process.ntupler.l1PrimaryVertex = cms.InputTag("l1tVertexFinderEmulator", "l1verticesEmulation")
+    process.ntupler.l1PrimaryVertex = cms.InputTag("l1tVertexFinderEmulator", "L1VerticesEmulation")
 
     # if doDYSkim:
     #     from MuonHLTTool.MuonHLTNtupler.DYmuSkimmer import DYmuSkimmer

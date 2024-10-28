@@ -2,8 +2,8 @@ import FWCore.ParameterSet.Config as cms
 
 ntuplerBase = cms.EDAnalyzer("MuonHLTNtupler",
 	# -- information stored in edm file
-	triggerResults    = cms.untracked.InputTag("TriggerResults::HLT"),
-	triggerEvent      = cms.untracked.InputTag("hltTriggerSummaryAOD::HLT"),
+	triggerResults    = cms.untracked.InputTag("TriggerResults::MYHLT"),
+	triggerEvent      = cms.untracked.InputTag("hltTriggerSummaryAOD::MYHLT"),
 	offlineLumiScaler = cms.untracked.InputTag("scalersRawToDigi"),
 	offlineVertex     = cms.untracked.InputTag("offlinePrimaryVertices"),
 	offlineMuon       = cms.untracked.InputTag("muons"),
