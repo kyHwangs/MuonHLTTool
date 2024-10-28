@@ -41,7 +41,6 @@ cmsDriver.py Phase2 -s L1,L1TrackTrigger \
 -n 100 --nThreads 1 \
 --no_exec
 ```
-Output: [rerunL1_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1_cfg.py)
 
 ### HLT re-emulate
 ```
