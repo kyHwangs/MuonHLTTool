@@ -105,7 +105,7 @@ cmsDriver.py Phase2 -s L1,L1TrackTrigger,L1P2GT,HLT:75e33 --processName=HLTX \
 --no_exec
 ```
 
-### problem with original config: [rerunL1HLT_cfg.py]([https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py))
+### problem with original config: [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py)
 
 ```
 ----- Begin Fatal Exception 16-Sep-2024 19:48:05 CEST-----------------------
@@ -126,9 +126,4 @@ Cannot convert l1t::TrackerMuon::muRef_ from type: vector<edm::Ref<BXVector<l1t:
 
 ----- End Fatal Exception -------------------------------------------------
 ```
-
-If we can use CMSSW_14_1_0_pre5 which do not need to L1 again before HLT, **but to utillize patatrack, we should uesr CMSSW_14_1_0_pre7**.
-
-To make ntuple, we should modify [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py) to [rerunL1HLT_ntuple_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_ntuple_cfg.py).
-
 
