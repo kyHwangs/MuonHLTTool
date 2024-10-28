@@ -79,8 +79,6 @@ ClusterTPAssociation has OmniClusterRefs with ProductIDs 2:330,2:233 but got Omn
 should be fixed.
 
 
-
-
 ### L1 + HLT emulation
 The output of L1 re-emulation has huge size (~60M per event, there are 1M event for each sample, that means ~60 TB for total sample)
 We have to find by-pass the L1 re-emulation.
@@ -104,7 +102,7 @@ cmsDriver.py Phase2 -s L1,L1TrackTrigger,L1P2GT,HLT:75e33 --processName=HLTX \
 --no_exec
 ```
 
-### problem with original config: [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py)
+### problem with original config: [rerunL1HLT_cfg.py](https://github.com/kyHwangs/MuonHLTTool/blob/Phase2_2024/rerunL1HLT_cfg.py)
 
 ```
 ----- Begin Fatal Exception 16-Sep-2024 19:48:05 CEST-----------------------
