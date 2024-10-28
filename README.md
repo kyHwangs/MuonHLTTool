@@ -10,10 +10,12 @@ git cms-init
 // Adding patatrack
 git remote add luca https://github.com/lguzzi/cmssw
 git fetch luca
-before git cherry-pick b4e8c86523
+git cherry-pick b4e8c86523
 
 
 // Adding ntupler
+git cms-addpkg HLTrigger/Configuration
+git clone -b Phase2_won https://github.com/wonpoint4/MuonHLTSeedMVAClassifier.git HLTrigger/MuonHLTSeedMVAClassifierPhase2
 git clone-b Phase2_2024 https://github.com/kyHwangs/MuonHLTTool.git
 scram b -j8
 ```
