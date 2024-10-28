@@ -2,13 +2,13 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Phase2 -s L1,L1TrackTrigger,L1P2GT,HLT:75e33 --processName=HLTX --conditions auto:phase2_realistic_T33 --geometry Extended2026D110 --era Phase2C17I13M9 --eventcontent FEVTDEBUGHLT --datatier GEN-SIM-DIGI-RAW-MINIAOD --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/Configuration/customisePhase2FEVTDEBUGHLT.customisePhase2FEVTDEBUGHLT,L1Trigger/Configuration/customisePhase2TTOn110.customisePhase2TTOn110 --filein file:/eos/cms/store/mc/Phase2Spring24DIGIRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/2810000/67e21bae-f9cd-43f1-8974-e163400220f7.root --python_filename rerunL1HLT.py --inputCommands=keep *, drop l1tPFJets_*_*_*, drop l1tTrackerMuons_l1tTkMuonsGmt*_*_HLT --inputCommands=keep *, drop *_hlt*_*_HLT, drop triggerTriggerFilterObjectWithRefs_l1t*_*_HLT --outputCommands=drop l1tTrackerMuons_l1tTkMuonsGmt*_*_HLT --mc -n 100 --nThreads 1 --procModifiers alpaka --no_exec
+# with command line options: Phase2 -s L1,L1TrackTrigger,L1P2GT,HLT:75e33 --processName=MYHLT --conditions auto:phase2_realistic_T33 --geometry Extended2026D110 --era Phase2C17I13M9 --eventcontent FEVTDEBUGHLT --datatier GEN-SIM-DIGI-RAW-MINIAOD --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/Configuration/customisePhase2FEVTDEBUGHLT.customisePhase2FEVTDEBUGHLT,L1Trigger/Configuration/customisePhase2TTOn110.customisePhase2TTOn110 --filein file:/eos/cms/store/mc/Phase2Spring24DIGIRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/2810000/67e21bae-f9cd-43f1-8974-e163400220f7.root --python_filename rerunL1HLT_cfg.py --mc -n 100 --nThreads 1 --procModifiers alpaka --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Phase2C17I13M9_cff import Phase2C17I13M9
 from Configuration.ProcessModifiers.alpaka_cff import alpaka
 
-process = cms.Process('HLTX',Phase2C17I13M9,alpaka)
+process = cms.Process('MYHLT',Phase2C17I13M9,alpaka)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -33,13 +33,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    dropDescendantsOfDroppedBranches = cms.untracked.bool(False),
-    fileNames = cms.untracked.vstring('file:/eos/cms/store/mc/Phase2Spring24DIGIRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/2810000/67e21bae-f9cd-43f1-8974-e163400220f7.root'),
-    inputCommands = cms.untracked.vstring(
-        'keep *',
-        'drop *_hlt*_*_HLT',
-        'drop triggerTriggerFilterObjectWithRefs_l1t*_*_HLT'
-    ),
+    fileNames = cms.untracked.vstring('file:/eos/cms/store/mc/Phase2Spring24DIGIRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/2810000/68470c5d-8cf6-48b7-84c1-3fec80a267b3.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -84,15 +78,15 @@ process.configurationMetadata = cms.untracked.PSet(
 
 # Output definition
 
-process.FEVTDEBUGHLToutput = cms.OutputModule("PoolOutputModule",
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('GEN-SIM-DIGI-RAW-MINIAOD'),
-        filterName = cms.untracked.string('')
-    ),
-    fileName = cms.untracked.string('Phase2_L1_L1TrackTrigger_L1P2GT_HLT.root'),
-    outputCommands = process.FEVTDEBUGHLTEventContent.outputCommands,
-    splitLevel = cms.untracked.int32(0)
-)
+# process.FEVTDEBUGHLToutput = cms.OutputModule("PoolOutputModule",
+#     dataset = cms.untracked.PSet(
+#         dataTier = cms.untracked.string('GEN-SIM-DIGI-RAW-MINIAOD'),
+#         filterName = cms.untracked.string('')
+#     ),
+#     fileName = cms.untracked.string('Phase2_L1_L1TrackTrigger_L1P2GT_HLT.root'),
+#     outputCommands = process.FEVTDEBUGHLTEventContent.outputCommands,
+#     splitLevel = cms.untracked.int32(0)
+# )
 
 # Additional output definition
 
@@ -102,7 +96,6 @@ process = ProcessName(process)
 
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T33', '')
-process.FEVTDEBUGHLToutput.outputCommands.append('drop l1tTrackerMuons_l1tTkMuonsGmt*_*_HLT')
 
 # Path and EndPath definitions
 process.L1simulation_step = cms.Path(process.SimL1Emulator)
@@ -153,56 +146,56 @@ process.pTripleTkMuon5_3_3 = cms.Path(process.TripleTkMuon533)
 process.L1T_DoubleNNTau52 = cms.Path(process.HLTL1Sequence+process.hltL1DoubleNNTau52)
 process.L1T_SingleNNTau150 = cms.Path(process.HLTL1Sequence+process.hltL1SingleNNTau150)
 process.endjob_step = cms.EndPath(process.endOfProcess)
-process.FEVTDEBUGHLToutput_step = cms.EndPath(process.FEVTDEBUGHLToutput)
+# process.FEVTDEBUGHLToutput_step = cms.EndPath(process.FEVTDEBUGHLToutput)
 
 # Schedule definition
 # process.schedule imported from cff in HLTrigger.Configuration
-process.schedule.insert(0, process.L1simulation_step)
-process.schedule.insert(1, process.L1TrackTrigger_step)
-process.schedule.insert(2, process.Phase2L1GTProducer)
-process.schedule.insert(3, process.Phase2L1GTAlgoBlockProducer)
-process.schedule.insert(4, process.TripleTkMuon_5_3_0_DoubleTkMuon_5_3_OS_MassTo9)
-process.schedule.insert(5, process.TripleTkMuon_5_3p5_2p5_OS_Mass5to17)
-process.schedule.insert(6, process.pDoubleEGEle37_24)
-process.schedule.insert(7, process.pDoubleIsoTkPho22_12)
-process.schedule.insert(8, process.pDoublePuppiJet112_112)
-process.schedule.insert(9, process.pDoublePuppiJet160_35_mass620)
-process.schedule.insert(10, process.pDoublePuppiTau52_52)
-process.schedule.insert(11, process.pDoubleTkEle25_12)
-process.schedule.insert(12, process.pDoubleTkElePuppiHT_8_8_390)
-process.schedule.insert(13, process.pDoubleTkMuPuppiHT_3_3_300)
-process.schedule.insert(14, process.pDoubleTkMuPuppiJetPuppiMet_3_3_60_130)
-process.schedule.insert(15, process.pDoubleTkMuon15_7)
-process.schedule.insert(16, process.pDoubleTkMuonTkEle5_5_9)
-process.schedule.insert(17, process.pDoubleTkMuon_4_4_OS_Dr1p2)
-process.schedule.insert(18, process.pDoubleTkMuon_4p5_4p5_OS_Er2_Mass7to18)
-process.schedule.insert(19, process.pDoubleTkMuon_OS_Er1p5_Dr1p4)
-process.schedule.insert(20, process.pIsoTkEleEGEle22_12)
-process.schedule.insert(21, process.pNNPuppiTauPuppiMet_55_190)
-process.schedule.insert(22, process.pPuppiHT400)
-process.schedule.insert(23, process.pPuppiHT450)
-process.schedule.insert(24, process.pPuppiMET200)
-process.schedule.insert(25, process.pPuppiMHT140)
-process.schedule.insert(26, process.pPuppiTauTkIsoEle45_22)
-process.schedule.insert(27, process.pPuppiTauTkMuon42_18)
-process.schedule.insert(28, process.pQuadJet70_55_40_40)
-process.schedule.insert(29, process.pSingleEGEle51)
-process.schedule.insert(30, process.pSingleIsoTkEle28)
-process.schedule.insert(31, process.pSingleIsoTkPho36)
-process.schedule.insert(32, process.pSinglePuppiJet230)
-process.schedule.insert(33, process.pSingleTkEle36)
-process.schedule.insert(34, process.pSingleTkMuon22)
-process.schedule.insert(35, process.pTkEleIsoPuppiHT_26_190)
-process.schedule.insert(36, process.pTkElePuppiJet_28_40_MinDR)
-process.schedule.insert(37, process.pTkEleTkMuon10_20)
-process.schedule.insert(38, process.pTkMuPuppiJetPuppiMet_3_110_120)
-process.schedule.insert(39, process.pTkMuTriPuppiJet_12_40_dRMax_DoubleJet_dEtaMax)
-process.schedule.insert(40, process.pTkMuonDoubleTkEle6_17_17)
-process.schedule.insert(41, process.pTkMuonPuppiHT6_320)
-process.schedule.insert(42, process.pTkMuonTkEle7_23)
-process.schedule.insert(43, process.pTkMuonTkIsoEle7_20)
-process.schedule.insert(44, process.pTripleTkMuon5_3_3)
-process.schedule.extend([process.endjob_step,process.FEVTDEBUGHLToutput_step])
+# process.schedule.insert(0, process.L1simulation_step)
+# process.schedule.insert(1, process.L1TrackTrigger_step)
+# process.schedule.insert(2, process.Phase2L1GTProducer)
+# process.schedule.insert(3, process.Phase2L1GTAlgoBlockProducer)
+# process.schedule.insert(4, process.TripleTkMuon_5_3_0_DoubleTkMuon_5_3_OS_MassTo9)
+# process.schedule.insert(5, process.TripleTkMuon_5_3p5_2p5_OS_Mass5to17)
+# process.schedule.insert(6, process.pDoubleEGEle37_24)
+# process.schedule.insert(7, process.pDoubleIsoTkPho22_12)
+# process.schedule.insert(8, process.pDoublePuppiJet112_112)
+# process.schedule.insert(9, process.pDoublePuppiJet160_35_mass620)
+# process.schedule.insert(10, process.pDoublePuppiTau52_52)
+# process.schedule.insert(11, process.pDoubleTkEle25_12)
+# process.schedule.insert(12, process.pDoubleTkElePuppiHT_8_8_390)
+# process.schedule.insert(13, process.pDoubleTkMuPuppiHT_3_3_300)
+# process.schedule.insert(14, process.pDoubleTkMuPuppiJetPuppiMet_3_3_60_130)
+# process.schedule.insert(15, process.pDoubleTkMuon15_7)
+# process.schedule.insert(16, process.pDoubleTkMuonTkEle5_5_9)
+# process.schedule.insert(17, process.pDoubleTkMuon_4_4_OS_Dr1p2)
+# process.schedule.insert(18, process.pDoubleTkMuon_4p5_4p5_OS_Er2_Mass7to18)
+# process.schedule.insert(19, process.pDoubleTkMuon_OS_Er1p5_Dr1p4)
+# process.schedule.insert(20, process.pIsoTkEleEGEle22_12)
+# process.schedule.insert(21, process.pNNPuppiTauPuppiMet_55_190)
+# process.schedule.insert(22, process.pPuppiHT400)
+# process.schedule.insert(23, process.pPuppiHT450)
+# process.schedule.insert(24, process.pPuppiMET200)
+# process.schedule.insert(25, process.pPuppiMHT140)
+# process.schedule.insert(26, process.pPuppiTauTkIsoEle45_22)
+# process.schedule.insert(27, process.pPuppiTauTkMuon42_18)
+# process.schedule.insert(28, process.pQuadJet70_55_40_40)
+# process.schedule.insert(29, process.pSingleEGEle51)
+# process.schedule.insert(30, process.pSingleIsoTkEle28)
+# process.schedule.insert(31, process.pSingleIsoTkPho36)
+# process.schedule.insert(32, process.pSinglePuppiJet230)
+# process.schedule.insert(33, process.pSingleTkEle36)
+# process.schedule.insert(34, process.pSingleTkMuon22)
+# process.schedule.insert(35, process.pTkEleIsoPuppiHT_26_190)
+# process.schedule.insert(36, process.pTkElePuppiJet_28_40_MinDR)
+# process.schedule.insert(37, process.pTkEleTkMuon10_20)
+# process.schedule.insert(38, process.pTkMuPuppiJetPuppiMet_3_110_120)
+# process.schedule.insert(39, process.pTkMuTriPuppiJet_12_40_dRMax_DoubleJet_dEtaMax)
+# process.schedule.insert(40, process.pTkMuonDoubleTkEle6_17_17)
+# process.schedule.insert(41, process.pTkMuonPuppiHT6_320)
+# process.schedule.insert(42, process.pTkMuonTkEle7_23)
+# process.schedule.insert(43, process.pTkMuonTkIsoEle7_20)
+# process.schedule.insert(44, process.pTripleTkMuon5_3_3)
+# process.schedule.extend([process.endjob_step,process.FEVTDEBUGHLToutput_step])
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
@@ -247,3 +240,142 @@ process = customizeHLTforMC(process)
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)
 # End adding early deletion
+
+# -- Ntuple, DQMOutput, and EDMOutput -- #
+doNtuple = True
+if doNtuple:
+    from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTNtupler import *
+    process = customizerFuncForMuonHLTNtupler(process, "MYHLT", False)
+
+    process.ntupler.offlineMuon                   = cms.untracked.InputTag("slimmedMuons")
+    process.ntupler.TkMuonToken                   = cms.InputTag("l1tTkMuonsGmt", "", "L1TrackTrigger")
+    # process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "MYHLT")
+    process.ntupler.doMVA                         = cms.bool(True)
+    # Isolation study
+    # process.ntupler.trkIsoTags                    = cms.untracked.vstring(   trkIsoTags )
+    # process.ntupler.trkIsoLabels                  = cms.untracked.VInputTag( trkIsoLabels )
+    # process.ntupler.pfIsoTags                     = cms.untracked.vstring(   pfIsoTags )
+    # process.ntupler.pfIsoLabels                   = cms.untracked.VInputTag( pfIsoLabels )
+
+    from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTSeedNtupler import *
+    process = customizerFuncForMuonHLTSeedNtupler(process, "MYHLT", True)
+
+    process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "", "MYHLT")
+    # process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "Level1TTTracks", "RECO")
+
+    process.TFileService.fileName = cms.string("seedNtuple_D110Geo_DYToLL.root")
+    
+    # from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
+    # WPNAME = 'noMVAcut_noSeedMax'
+    # doSort = False
+    # nSeedMax_B = (-1,)
+    # nSeedMax_E = (-1,)
+    # mvaCuts_B = (0,)
+    # mvaCuts_E = (0,)
+    # process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
+    # process.hltIter2Phase2L3FromL1TkMuonPixelSeedsFiltered.L1TkMu = cms.InputTag("l1tTkMuonsGmt", "", "MYHLT")
+
+#process.l1tTkMuonsGmt.applyQualityCuts = cms.bool(False)
+
+doDQMOut = False
+if doDQMOut:
+    process.dqmOutput = cms.OutputModule("DQMRootOutputModule",
+        dataset = cms.untracked.PSet(
+            dataTier = cms.untracked.string('DQMIO'),
+            filterName = cms.untracked.string('')
+        ),
+        fileName = cms.untracked.string("DQMIO.root"),
+        outputCommands = process.DQMEventContent.outputCommands,
+        splitLevel = cms.untracked.int32(0)
+    )
+    process.DQMOutput = cms.EndPath( process.dqmOutput )
+
+doEDMOut = False
+if doEDMOut:
+    process.writeDataset = cms.OutputModule("PoolOutputModule",
+        fileName = cms.untracked.string('edmOutput.root'),
+        outputCommands = cms.untracked.vstring(
+            'drop *',
+            'keep *_*_*_MYHLT'
+        )
+    )
+    process.EDMOutput = cms.EndPath(process.writeDataset)
+# -- #
+
+process.schedule = cms.Schedule(
+
+    process.L1simulation_step,
+    process.L1TrackTrigger_step,
+    process.Phase2L1GTProducer,
+    process.Phase2L1GTAlgoBlockProducer,
+    process.TripleTkMuon_5_3_0_DoubleTkMuon_5_3_OS_MassTo9,
+    process.TripleTkMuon_5_3p5_2p5_OS_Mass5to17,
+    process.pDoubleEGEle37_24,
+    process.pDoubleIsoTkPho22_12,
+    process.pDoublePuppiJet112_112,
+    process.pDoublePuppiJet160_35_mass620,
+    process.pDoublePuppiTau52_52,
+    process.pDoubleTkEle25_12,
+    process.pDoubleTkElePuppiHT_8_8_390,
+    process.pDoubleTkMuPuppiHT_3_3_300,
+    process.pDoubleTkMuPuppiJetPuppiMet_3_3_60_130,
+    process.pDoubleTkMuon15_7,
+    process.pDoubleTkMuonTkEle5_5_9,
+    process.pDoubleTkMuon_4_4_OS_Dr1p2,
+    process.pDoubleTkMuon_4p5_4p5_OS_Er2_Mass7to18,
+    process.pDoubleTkMuon_OS_Er1p5_Dr1p4,
+    process.pIsoTkEleEGEle22_12,
+    process.pNNPuppiTauPuppiMet_55_190,
+    process.pPuppiHT400,
+    process.pPuppiHT450,
+    process.pPuppiMET200,
+    process.pPuppiMHT140,
+    process.pPuppiTauTkIsoEle45_22,
+    process.pPuppiTauTkMuon42_18,
+    process.pQuadJet70_55_40_40,
+    process.pSingleEGEle51,
+    process.pSingleIsoTkEle28,
+    process.pSingleIsoTkPho36,
+    process.pSinglePuppiJet230,
+    process.pSingleTkEle36,
+    process.pSingleTkMuon22,
+    process.pTkEleIsoPuppiHT_26_190,
+    process.pTkElePuppiJet_28_40_MinDR,
+    process.pTkEleTkMuon10_20,
+    process.pTkMuPuppiJetPuppiMet_3_110_120,
+    process.pTkMuTriPuppiJet_12_40_dRMax_DoubleJet_dEtaMax,
+    process.pTkMuonDoubleTkEle6_17_17,
+    process.pTkMuonPuppiHT6_320,
+    process.pTkMuonTkEle7_23,
+    process.pTkMuonTkIsoEle7_20,
+    process.pTripleTkMuon5_3_3,
+
+    process.L1T_SingleTkMuon_22,
+    process.L1T_DoubleTkMuon_15_7,
+    process.L1T_TripleTkMuon_5_3_3,
+    process.HLT_Mu50_FromL1TkMuon,
+    process.HLT_IsoMu24_FromL1TkMuon,
+    process.HLT_Mu37_Mu27_FromL1TkMuon,
+    process.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon,
+    process.HLT_TriMu_10_5_5_DZ_FromL1TkMuon,
+    # process.HLT_IsoStudy,
+    process.HLTriggerFinalPath,
+    # process.Gen_QCDBCToEFilter,
+    # process.Gen_QCDEmEnrichingFilter,
+    # process.Gen_QCDEmEnrichingNoBCToEFilter,
+    # process.Gen_QCDMuGenFilter,
+    # process.Gen_QCDMuNoEmGenFilter,
+    # process.Gen_QCDEmNoMuGenFilter,
+    # process.myana,
+    process.mypath,
+    # process.valpath,
+    process.myendpath,
+    process.myseedpath
+    # process.DQMOutput
+    # process.EDMOutput
+ )
+
+
+
+
+
