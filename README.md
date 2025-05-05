@@ -7,7 +7,7 @@ cd 15_0_0_pre3/src
 cmsenv
 git cms-init
 
-git clone -b Phase2_2024 https://github.com/kyHwangs/MuonHLTTool.git
+git clone -b Phase2_2024 https://github.com/kyHwangs/MuonHLTTool.git -b Phase2_2024
 scram b -j8
 ```
 
