@@ -22,8 +22,8 @@ def customizerFuncForMuonHLTSeedNtupler(process, newProcessName = "MYHLT", doDYS
     from SimTracker.TrackerHitAssociation.tpClusterProducer_cfi import tpClusterProducer as _tpClusterProducer
 
     process.hltTPClusterProducer = _tpClusterProducer.clone(
-      # pixelClusterSrc = "hltSiPixelClusters",
-      # stripClusterSrc = "hltSiStripRawToClustersFacility"
+        phase2OTClusterSrc = cms.InputTag("hltSiPhase2Clusters"),
+        pixelClusterSrc = cms.InputTag("hltSiPixelClusters"),
     )
     process.hltTPClusterProducer.pixelSimLinkSrc = cms.InputTag("simSiPixelDigis","Pixel")
     process.hltTrackAssociatorByHits = SimTracker.TrackAssociatorProducers.quickTrackAssociatorByHits_cfi.quickTrackAssociatorByHits.clone()
@@ -40,7 +40,7 @@ def customizerFuncForMuonHLTSeedNtupler(process, newProcessName = "MYHLT", doDYS
     process.seedNtupler.L1Muon           = cms.untracked.InputTag("simGmtStage2Digis","",newProcessName)  # Phase II sim emul
     process.seedNtupler.L2Muon           = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates", "", "MYHLT")
 
-    process.seedNtupler.L1TkMuon                                          = cms.untracked.InputTag("l1tTkMuonsGmt",                                         "", "HLT")
+    process.seedNtupler.L1TkMuon                                          = cms.untracked.InputTag("l1tTkMuonsGmt")
     process.seedNtupler.L1PrimaryVertex                                   = cms.untracked.InputTag("l1tVertexFinderEmulator",            "l1verticesEmulation", newProcessName)
 
     process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltPhase2L3OISeedsFromL2Muons",                         "", newProcessName)

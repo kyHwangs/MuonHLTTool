@@ -266,7 +266,7 @@ def customizerFuncForMuonHLTIterL3Ntupler(process, newProcessName = "MYHLT", doD
     process.ntupler.L1TrackInputTag = cms.InputTag("l1tTTTracksFromTrackletEmulation", "Level1TTTracks") # TTTrack input
     # process.ntupler.MCTruthTrackInputTag = cms.InputTag("TTTrackAssociatorFromPixelDigis", "Level1TTTracks")  ## MCTruth input
     # process.ntupler.L1StubInputTag = cms.InputTag("TTStubsFromPhase2TrackerDigis","StubAccepted")
-    process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons", "", newProcessName)
+    process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons")
     process.ntupler.l1PrimaryVertex = cms.InputTag("l1tVertexFinderEmulator", "l1verticesEmulation")
 
     # if doDYSkim:

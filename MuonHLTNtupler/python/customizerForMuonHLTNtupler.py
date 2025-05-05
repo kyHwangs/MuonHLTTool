@@ -21,8 +21,8 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     from SimTracker.TrackerHitAssociation.tpClusterProducer_cfi import tpClusterProducer as _tpClusterProducer
 
     process.hltTPClusterProducer = _tpClusterProducer.clone(
-      # pixelClusterSrc = "hltSiPixelClusters",
-      # stripClusterSrc = "hltSiStripRawToClustersFacility"
+        phase2OTClusterSrc = cms.InputTag("hltSiPhase2Clusters"),
+        pixelClusterSrc = cms.InputTag("hltSiPixelClusters"),
     )
     process.hltTPClusterProducer.pixelSimLinkSrc = cms.InputTag("simSiPixelDigis","Pixel")
     process.hltTrackAssociatorByHits = SimTracker.TrackAssociatorProducers.quickTrackAssociatorByHits_cfi.quickTrackAssociatorByHits.clone()
@@ -256,7 +256,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     process.ntupler.L1TrackInputTag = cms.InputTag("l1tTTTracksFromTrackletEmulation", "Level1TTTracks") # TTTrack input
     # process.ntupler.MCTruthTrackInputTag = cms.InputTag("TTTrackAssociatorFromPixelDigis", "Level1TTTracks")  ## MCTruth input
     # process.ntupler.L1StubInputTag = cms.InputTag("TTStubsFromPhase2TrackerDigis","StubAccepted")
-    process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons", "", newProcessName)
+    process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons")
     process.ntupler.l1PrimaryVertex = cms.InputTag("l1tVertexFinderEmulator", "L1VerticesEmulation")
 
     # if doDYSkim:
