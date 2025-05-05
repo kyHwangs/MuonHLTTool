@@ -1,6 +1,6 @@
 # MuonHLT Ntupler
 
-## Setup (15_0_0_pre3, check the P2UG instruction: https://cmshltupgrade.docs.cern.ch/RunningInstructions/)
+## Setup (15_0_0_pre3, check the P2UG instruction for further updates: https://cmshltupgrade.docs.cern.ch/RunningInstructions/)
 ```
 cmsrel 15_0_0_pre3
 cd 15_0_0_pre3/src
