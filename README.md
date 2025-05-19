@@ -182,5 +182,5 @@ cmsRun hlt_muon_mc.py
 
 Before submit the crab job, make sure the # of thread is set to 4.
 ```
-sed -i 's/numberOfThreads = 1/numberOfThreads = 4/g' hlt_muon_mc.py
+sed -i 's/numberOfThreads = cms.untracked.uint32(1)/numberOfThreads = cms.untracked.uint32(4)/g' hlt_muon_mc.py
 ```
