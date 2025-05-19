@@ -151,9 +151,9 @@ process.schedule = cms.Schedule(
     process.pTkMuonTkIsoEle7_20,
     process.pTripleTkMuon5_3_3,
 
-    process.L1T_SingleTkMuon_22,
-    process.L1T_DoubleTkMuon_15_7,
-    process.L1T_TripleTkMuon_5_3_3,
+    # process.L1T_SingleTkMuon_22,
+    # process.L1T_DoubleTkMuon_15_7,
+    # process.L1T_TripleTkMuon_5_3_3,
     process.HLT_Mu50_FromL1TkMuon,
     process.HLT_IsoMu24_FromL1TkMuon,
     process.HLT_Mu37_Mu27_FromL1TkMuon,
