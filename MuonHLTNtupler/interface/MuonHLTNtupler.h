@@ -139,6 +139,7 @@ private:
   void Fill_Muon(const edm::Event &iEvent);
   void Fill_HLTMuon(const edm::Event &iEvent);
   void Fill_L1Muon(const edm::Event &iEvent);
+  void Fill_L1TkMuon(const edm::Event &iEvent);
   void Fill_GenParticle(const edm::Event &iEvent);
 
   //For Rerun (Fill_IterL3*)
@@ -173,10 +174,11 @@ private:
   edm::EDGetTokenT< trigger::TriggerEvent >                  t_triggerEvent_;
   edm::EDGetTokenT< edm::TriggerResults >                    t_myTriggerResults_;
   edm::EDGetTokenT< trigger::TriggerEvent >                  t_myTriggerEvent_;
-
+  
   edm::EDGetTokenT< reco::RecoChargedCandidateCollection >   t_L3Muon_;
-  edm::EDGetTokenT< reco::RecoChargedCandidateCollection >   t_L2Muon_;
+  edm::EDGetTokenT< reco::TrackCollection >                  t_L2Muon_;
   edm::EDGetTokenT< l1t::MuonBxCollection >                  t_L1Muon_;
+  edm::EDGetTokenT< l1t::TrackerMuonCollection >             t_L1TkMuon_;
   edm::EDGetTokenT< reco::RecoChargedCandidateCollection >   t_TkMuon_;
 
   edm::EDGetTokenT< std::vector<reco::MuonTrackLinks> >      t_iterL3OI_;
@@ -531,6 +533,15 @@ private:
   double L1Muon_quality_[arrSize_];
   double L1Muon_etaAtVtx_[arrSize_];
   double L1Muon_phiAtVtx_[arrSize_];
+
+  int nL1TkMuon_;
+  double L1TkMuon_pt_[arrSize_];
+  double L1TkMuon_eta_[arrSize_];
+  double L1TkMuon_phi_[arrSize_];
+  double L1TkMuon_charge_[arrSize_];
+  double L1TkMuon_quality_[arrSize_];
+  double L1TkMuon_etaAtVtx_[arrSize_];
+  double L1TkMuon_phiAtVtx_[arrSize_];
 
   // -- Tracker muon
   int nTkMuon_;

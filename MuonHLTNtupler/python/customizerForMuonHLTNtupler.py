@@ -130,7 +130,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     # process.ntupler.L1Muon           = cms.untracked.InputTag("gmtStage2Digis",        "Muon", newProcessName) 
     # process.ntupler.L1Muon           = cms.untracked.InputTag("hltGtStage2Digis",        "Muon", "HLT") #for phaseII w/o emulation
     process.ntupler.L1Muon                        = cms.untracked.InputTag("simGmtStage2Digis",                  "", newProcessName)  # Phase II sim emul
-    process.ntupler.L2Muon                        = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates",    "", newProcessName)
+    process.ntupler.L2Muon                        = cms.untracked.InputTag("hltL2MuonsFromL1TkMuon",             "", newProcessName)
     process.ntupler.L3Muon                        = cms.untracked.InputTag("hltPhase2L3MuonCandidates",          "", newProcessName)
     process.ntupler.TkMuon                        = cms.untracked.InputTag("hltHighPtTkMuonCands",               "", newProcessName)
 

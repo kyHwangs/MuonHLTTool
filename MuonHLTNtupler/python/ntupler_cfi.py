@@ -14,8 +14,8 @@ ntuplerBase = cms.EDAnalyzer("MuonHLTNtupler",
 	myTriggerEvent   = cms.untracked.InputTag("hltTriggerSummaryAOD", "", "MYHLT"),
 	lumiScaler       = cms.untracked.InputTag("hltScalersRawToDigi",  "", "MYHLT"),
 
-	L1Muon = cms.untracked.InputTag("hltGmtStage2Digis",       "Muon", "MYHLT"), # -- if L1 emulator is used
-	# L1Muon = cms.untracked.InputTag("gmtStage2Digis",          "Muon", "RECO"), # -- if L1 is not emulated
+	L1Muon = cms.untracked.InputTag("simGmtStage2Digis", "", "MYHLT"), # -- if L1 emulator is used
+	L1TkMuon = cms.untracked.InputTag("l1tTkMuonsGmt"),
 	L2Muon = cms.untracked.InputTag("hltL2MuonCandidates",     "",     "MYHLT"),
 	L3Muon = cms.untracked.InputTag("hltIterL3MuonCandidates", "",     "MYHLT"),
 	TkMuon = cms.untracked.InputTag("hltHighPtTkMuonCands",    "",     "MYHLT"),

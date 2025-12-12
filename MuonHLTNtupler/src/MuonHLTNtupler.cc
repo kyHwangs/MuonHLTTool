@@ -79,7 +79,6 @@ SaveAllTracks(iConfig.getParameter<bool>("SaveAllTracks")),
 ttTrackToken_        ( consumes<std::vector<TTTrack<Ref_Phase2TrackerDigi_> > >(iConfig.getParameter<edm::InputTag>("L1TrackInputTag"     )) ),
 // ttTrackMCTruthToken_ ( consumes< TTTrackAssociationMap< Ref_Phase2TrackerDigi_ > >(iConfig.getParameter<edm::InputTag>("MCTruthTrackInputTag"))),
 // ttStubToken_         ( consumes< edmNew::DetSetVector< TTStub< Ref_Phase2TrackerDigi_ > > >(iConfig.getParameter<edm::InputTag>("L1StubInputTag"))),
-TkMuonToken_         ( consumes<l1t::TrackerMuonCollection>     (iConfig.getParameter<edm::InputTag>("TkMuonToken"))),
 l1PrimaryVertexToken_( consumes<l1t::VertexWordCollection>      (iConfig.getParameter<edm::InputTag>("l1PrimaryVertex"))),
 
 // trackerHitAssociatorConfig_(iConfig, consumesCollector()),
@@ -93,8 +92,9 @@ t_triggerEvent_      ( consumes< trigger::TriggerEvent >                  (iConf
 t_myTriggerResults_  ( consumes< edm::TriggerResults >                    (iConfig.getUntrackedParameter<edm::InputTag>("myTriggerResults"  )) ),
 t_myTriggerEvent_    ( consumes< trigger::TriggerEvent >                  (iConfig.getUntrackedParameter<edm::InputTag>("myTriggerEvent"    )) ),
 t_L3Muon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("L3Muon"            )) ),
-t_L2Muon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("L2Muon"            )) ),
-t_L1Muon_            ( consumes< l1t::MuonBxCollection  >                 (iConfig.getUntrackedParameter<edm::InputTag>("L1Muon"            )) ),
+t_L2Muon_            ( consumes< reco::TrackCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("L2Muon"            )) ),
+t_L1Muon_            ( consumes< l1t::MuonBxCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("L1Muon"            )) ),
+t_L1TkMuon_          ( consumes< l1t::TrackerMuonCollection >             (iConfig.getUntrackedParameter<edm::InputTag>("L1TkMuon"          )) ),
 t_TkMuon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("TkMuon"            )) ),
 
 t_iterL3OI_          ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3OI"          )) ),
@@ -354,6 +354,7 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   Fill_HLT(iEvent, 1); // -- rerun objects
   Fill_HLTMuon(iEvent);
   Fill_L1Muon(iEvent);
+  Fill_L1TkMuon(iEvent);
   Fill_IterL3(iEvent, iSetup);
   if( doSeed )  Fill_Seed(iEvent, iSetup);
   if( !isRealData_ ) {
@@ -671,6 +672,18 @@ void MuonHLTNtupler::Init()
     L1Muon_quality_[i] = -999;
     L1Muon_etaAtVtx_[i] = -999;
     L1Muon_phiAtVtx_[i] = -999;
+  }
+
+  nL1TkMuon_ = 0;
+  for( int i=0; i<arrSize_; i++)
+  {
+    L1TkMuon_pt_[i] = -999;
+    L1TkMuon_eta_[i] = -999;
+    L1TkMuon_phi_[i] = -999;
+    L1TkMuon_charge_[i] = -999;
+    L1TkMuon_quality_[i] = -999;
+    L1TkMuon_etaAtVtx_[i] = -999;
+    L1TkMuon_phiAtVtx_[i] = -999;
   }
 
   nIterL3OI_ = 0;
@@ -1008,6 +1021,15 @@ void MuonHLTNtupler::Make_Branch()
   ntuple_->Branch("L1Muon_etaAtVtx", &L1Muon_etaAtVtx_, "L1Muon_etaAtVtx[nL1Muon]/D");
   ntuple_->Branch("L1Muon_phiAtVtx", &L1Muon_phiAtVtx_, "L1Muon_phiAtVtx[nL1Muon]/D");
 
+  ntuple_->Branch("nL1TkMuon", &nL1TkMuon_, "nL1TkMuon/I");
+  ntuple_->Branch("L1TkMuon_pt", &L1TkMuon_pt_, "L1TkMuon_pt[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_eta", &L1TkMuon_eta_, "L1TkMuon_eta[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_phi", &L1TkMuon_phi_, "L1TkMuon_phi[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_charge", &L1TkMuon_charge_, "L1TkMuon_charge[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_quality", &L1TkMuon_quality_, "L1TkMuon_quality[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_etaAtVtx", &L1TkMuon_etaAtVtx_, "L1TkMuon_etaAtVtx[nL1TkMuon]/D");
+  ntuple_->Branch("L1TkMuon_phiAtVtx", &L1TkMuon_phiAtVtx_, "L1TkMuon_phiAtVtx[nL1TkMuon]/D");
+
   ntuple_->Branch("nIterL3OI", &nIterL3OI_, "nIterL3OI/I");
   ntuple_->Branch("iterL3OI_inner_pt", &iterL3OI_inner_pt_, "iterL3OI_inner_pt[nIterL3OI]/D");
   ntuple_->Branch("iterL3OI_inner_eta", &iterL3OI_inner_eta_, "iterL3OI_inner_eta[nIterL3OI]/D");
@@ -1317,7 +1339,7 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
 
   // Now(May2023), TkMuon.h (in HLT-TDR) --> TrackerMuon.h (See comments in https://github.com/cms-sw/cmssw/blob/a7e908cdc4a22f35aaf0775d9f84b068d9bd2f7d/HLTrigger/HLTfilters/plugins/L1TTkMuonFilter.cc#L130-L133)
   edm::Handle<l1t::TrackerMuonCollection> TkMuon;
-  iEvent.getByToken(TkMuonToken_,TkMuon);
+  iEvent.getByToken(t_L1TkMuon_,TkMuon);
   for(auto Tkmu=TkMuon->begin(); Tkmu!=TkMuon->end(); ++Tkmu)
   {
     // https://github.com/cms-sw/cmssw/blob/09b17fcfb3900782ab78ad6e0c76e1957c94ff71/DataFormats/L1TCorrelator/interface/TkMuon.h
@@ -1634,26 +1656,28 @@ void MuonHLTNtupler::Fill_HLTMuon(const edm::Event &iEvent)
   ///////////////////
   // -- L2 Muon -- //
   ///////////////////
-  edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
-  if( iEvent.getByToken( t_L2Muon_, h_L2Muon ) )
-  {
-    int _nL2Muon = 0;
-    for( unsigned int i_L2=0; i_L2<h_L2Muon->size(); i_L2++)
-    {
-      reco::RecoChargedCandidateRef ref_L2Mu(h_L2Muon, _nL2Muon);
+  int _nL2Muon = 0;
+\
+  // std::cout << "| MuonHLTNtupler::Fill_HLTMuon: h_L2Muon->size(): " << h_L2Muon->size() << std::endl;
 
+  edm::Handle<reco::TrackCollection> h_L2Muon;
+  if( iEvent.getByToken(t_L2Muon_, h_L2Muon) )
+  {
+    for (size_t l2MuIndex = 0; l2MuIndex != h_L2Muon->size(); ++l2MuIndex) {
+      reco::TrackRef ref_L2Mu(h_L2Muon, l2MuIndex);
+      
       L2Muon_pt_[_nL2Muon]     = ref_L2Mu->pt();
       L2Muon_eta_[_nL2Muon]    = ref_L2Mu->eta();
       L2Muon_phi_[_nL2Muon]    = ref_L2Mu->phi();
       L2Muon_charge_[_nL2Muon] = ref_L2Mu->charge();
 
-      reco::TrackRef trackRef = ref_L2Mu->track();
-      L2Muon_trkPt_[_nL2Muon] = trackRef->pt();
+      // reco::TrackRef trackRef = ref_L2Mu->track();
+      L2Muon_trkPt_[_nL2Muon] = -9999;
 
       _nL2Muon++;
     }
-    nL2Muon_ = _nL2Muon;
   }
+  nL2Muon_ = _nL2Muon;
 
   ///////////////////
   // -- Tk Muon -- //
@@ -1686,6 +1710,7 @@ void MuonHLTNtupler::Fill_L1Muon(const edm::Event &iEvent)
   if( iEvent.getByToken(t_L1Muon_, h_L1Muon) )
   {
     int _nL1Muon = 0;
+  
     for(int ibx = h_L1Muon->getFirstBX(); ibx<=h_L1Muon->getLastBX(); ++ibx)
     {
       if(ibx != 0) continue; // -- only take when ibx == 0 -- //
@@ -1703,10 +1728,32 @@ void MuonHLTNtupler::Fill_L1Muon(const edm::Event &iEvent)
         L1Muon_phiAtVtx_[_nL1Muon] = ref_L1Mu->phiAtVtx();
 
         _nL1Muon++;
+
       }
     }
     nL1Muon_ = _nL1Muon;
   }
+}
+
+
+void MuonHLTNtupler::Fill_L1TkMuon(const edm::Event &iEvent)
+{
+
+  int _nL1TkMuon = 0;
+  auto const l1TkMuColl = iEvent.getHandle(t_L1TkMuon_);
+
+  for (size_t l1TkMuIndex = 0; l1TkMuIndex != l1TkMuColl->size(); ++l1TkMuIndex) 
+  {
+    l1t::TrackerMuonRef ref_L1TkMu(l1TkMuColl, l1TkMuIndex);
+
+    L1TkMuon_pt_[_nL1TkMuon] = ref_L1TkMu->phPt();
+    L1TkMuon_eta_[_nL1TkMuon] = ref_L1TkMu->phEta();
+    L1TkMuon_phi_[_nL1TkMuon] = ref_L1TkMu->phPhi();
+    L1TkMuon_charge_[_nL1TkMuon] = ref_L1TkMu->phCharge();
+    _nL1TkMuon++;
+  }
+
+  nL1TkMuon_ = _nL1TkMuon;
 }
 
 void MuonHLTNtupler::Fill_GenParticle(const edm::Event &iEvent)
@@ -2394,11 +2441,11 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   // edm::Handle<l1t::MuonBxCollection> h_L1Muon;
   // bool hasL1 = iEvent.getByToken( t_L1Muon_, h_L1Muon);
 
-  edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
+  edm::Handle<reco::TrackCollection> h_L2Muon;
   bool hasL2 = iEvent.getByToken( t_L2Muon_, h_L2Muon );
 
   edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu;
-  bool hasL1TkMu = iEvent.getByToken( TkMuonToken_, h_L1TkMu);
+  bool hasL1TkMu = iEvent.getByToken( t_L1TkMuon_, h_L1TkMu);
 
   edm::Handle<edm::View<reco::Track>> trkHandle;
   if( iEvent.getByToken( theToken, trkHandle ) )
