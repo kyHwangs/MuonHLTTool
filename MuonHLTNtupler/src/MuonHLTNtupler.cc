@@ -363,7 +363,12 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   }
 
   for( unsigned int i = 0; i < trackCollectionNames_.size(); ++i) {
-    bool doIso = (i == trackCollectionNames_.size()-1);
+
+    // std::cout << "trackCollectionNames_.at(i): " << trackCollectionNames_.at(i) << std::endl;
+    // bool doIso = (i == trackCollectionNames_.size()-1);
+    bool doIso = false;
+    // std::cout << "trackCollectionNames_.at(i): " << trackCollectionNames_.at(i) << " doIso: " << doIso << std::endl;
+
     fill_trackTemplate( iEvent, trackCollectionTokens_.at(i), recoToSimCollectionTokens_.at(i), trkTemplates_.at(i), doIso );
     fill_tpTemplate(    iEvent,                               simToRecoCollectionTokens_.at(i), tpTemplates_.at(i) );
   }
