@@ -682,14 +682,13 @@ void HLTBDTAnalyzer_binary(
                     for(unsigned j=0; j<Eff_genpt_mins.size(); ++j) {
                         if( genmu.pt > Eff_genpt_mins.at(j) ) {
                             hc_Eff.at(i).at(j)->fill_den( genmu, nt->truePU, genWeight );
+                            if( matched_idx > -1 )
+                                hc_Eff.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
 
                             if( matched_L1Muon ) {
                                 hc_Eff_L1Tk.at(i).at(j)->fill_den( genmu, nt->truePU, genWeight );
-
-                                if( matched_idx > -1 ) {
-                                    hc_Eff.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
+                                if( matched_idx > -1 )
                                     hc_Eff_L1Tk.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
-                                }
                             }
                         }
                     }
@@ -697,14 +696,13 @@ void HLTBDTAnalyzer_binary(
                     // --  Efficiency turn-on / Gen or L1Tk
                     for(unsigned j=0; j<Eff_L3pt_mins.size(); ++j) {
                         hc_EffTO.at(i).at(j)->fill_den( genmu, nt->truePU, genWeight );
+                        if( matched_idx > -1 && L3Coll->at(matched_idx).pt > Eff_L3pt_mins.at(j) )
+                            hc_EffTO.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
 
                         if( matched_L1Muon ) {
                             hc_EffTO_L1Tk.at(i).at(j)->fill_den( genmu, nt->truePU, genWeight );
-
-                            if( matched_idx > -1 && L3Coll->at(matched_idx).pt > Eff_L3pt_mins.at(j) ) {
-                                hc_EffTO.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
+                            if( matched_idx > -1 && L3Coll->at(matched_idx).pt > Eff_L3pt_mins.at(j) )
                                 hc_EffTO_L1Tk.at(i).at(j)->fill_num( genmu, nt->truePU, genWeight );
-                            }
                         }
                     }
                 }
